@@ -1,4 +1,5 @@
 const Diario = require("../models/diario");
+const Viagem = require("../models/viagem");
 
 const listDiarios = async (req, res) => {
     try {
@@ -11,11 +12,29 @@ const listDiarios = async (req, res) => {
 
 const getDiarioByTitle = async (req, res) => {
     try {
-        const diario = Diario.findOne({ titulodiario: req.params.titulodiario });
+        const diario = await Diario.findOne({ titulodiario: req.params.title });
         if(!diario) {
             return res.status(404).send("Diário não encontrado");
         }
         res.json(diario)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro ao buscar diário por título")
+    }
+}
+
+const getDiariosByViagem = async (req, res) => {
+    try {
+        const viagem = await Viagem.findOne({ title: req.params.travel });
+        if(!viagem) {
+            return res.status(404).send("Viagem não encontrada");
+        }
+
+        const diarios = await Diario.find({ idviagem: viagem._id });
+        if(!diarios) {
+            return res.status(404).send("Diário(s) não encontrado(s)");
+        }
+        res.json(diarios)
     } catch (error) {
         console.error(error);
         res.status(500).send("Erro ao buscar diário por título")
@@ -67,4 +86,4 @@ const deleteDiarioByTitle = async (req, res) => {
     }
 };
 
-module.exports = { listDiarios, getDiarioByTitle, createDiario, updateDiarioByTitle, deleteDiarioByTitle }
+module.exports = { listDiarios, getDiarioByTitle, getDiariosByViagem, createDiario, updateDiarioByTitle, deleteDiarioByTitle }
