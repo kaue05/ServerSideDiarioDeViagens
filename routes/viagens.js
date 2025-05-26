@@ -3,7 +3,6 @@ var router = express.Router();
 
 const { listViagens, getViagemByTitle, createViagem, updateViagemByTitle, deleteViagemByTitle } = require("../controllers/viagemController")
 
-/* GET users listing. */
 router.get('/', listViagens);
 router.get('/:title', getViagemByTitle);
 router.post('/create', createViagem);

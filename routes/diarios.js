@@ -3,7 +3,6 @@ var router = express.Router();
 
 const { listDiarios, getDiarioByTitle, getDiariosByViagem, createDiario, updateDiarioByTitle, deleteDiarioByTitle } = require("../controllers/diarioController")
 
-/* GET users listing. */
 router.get('/', listDiarios);
 router.get('/:title', getDiarioByTitle);
 router.get('/viagem/:travel', getDiariosByViagem);
